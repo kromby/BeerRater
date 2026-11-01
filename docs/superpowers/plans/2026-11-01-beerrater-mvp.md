@@ -172,7 +172,7 @@ git commit -m "docs: BR-00 architecture decisions, MVP design and plan"
 **Interfaces:**
 - Produces:
   - `public record BeerStorageInfo(string ConnectionString);`
-  - `public class Season { string ID; string Name; string? Type; DateTime StartDate; DateTime? EndDate; bool IsOpen => EndDate == null; }`
+  - `public class Season { string ID; string Name; int? TypeID; DateTime StartDate; DateTime? EndDate; bool IsOpen => EndDate == null; }`
   - `IBeerSeasonDataAccess`: `Task<IList<Season>> GetSeasonsAsync()`, `Task<IList<string>> GetSeasonBeerIDsAsync(string seasonID)`, `Task AddBeerToSeasonAsync(string seasonID, string beerID)`. Implement all three now; the season–beer link is the `BeerSeasonBeers` table (PK season ID, RK beer ID).
   - `SeasonInteractor(IBeerSeasonDataAccess, ILogger<SeasonInteractor>)`:
     - `Task<Season?> GetCurrentSeasonAsync()`
@@ -233,7 +233,7 @@ services.AddSingleton<SeasonInteractor>();
 **Interfaces:**
 - Consumes: GET `beer/seasons/current` (Task 3).
 - Produces:
-  - `types.ts`: `Season { id: string; name: string; type?: string; startDate: string; endDate?: string; isOpen: boolean }`
+  - `types.ts`: `Season { id: string; name: string; typeID?: number; startDate: string; endDate?: string; isOpen: boolean }`
   - `hress.ts`:
     - `useHressAuth(): { isLoggedIn: boolean; userID?: number; headers: Record<string, string> }`. It wraps `useAuth()` from `src/context/auth`; the user ID comes from `localStorage.getItem("userID")`.
     - `hressApiUrl(path: string): string`, which returns `${config.get("apiPath")}/api/${path}`
@@ -640,8 +640,8 @@ it("links each row to /beer/:beerID")
 - Create: `docs/launch-runbook.md`
 
 - [ ] **Step 1: Write the runbook.** These are kromby's manual steps, in order. Give exact names and values.
-  1. **Blob container.** Create the blob container `beer` in the production storage account.
-  2. **Season row.** Create a `BeerSeasons` row: `PartitionKey=season`, `RowKey=jolabjor-2026`, `Name=Jólabjór 2026`, `Type=Jólabjór`, `StartDate` set, and no `EndDate`. If the API hasn't run yet, create the tables first in Storage Explorer.
+  1. **Blob container.** Create the blob container `beer` in the production storage account. Uploads do not create it, so a missing container makes every beer photo upload fail.
+  2. **Season row.** Create a `BeerSeasons` row: `PartitionKey=season`, `RowKey=jolabjor-2026`, `Name=Jólabjór 2026`, `TypeID` left empty (the `gen_Type` ID once season types exist), `StartDate` set, and no `EndDate`. If the API hasn't run yet, create the tables first in Storage Explorer.
   3. **Beer list.** Load the beers with Storage Explorer's CSV import. Use a CSV template for `Beers` with the header `PartitionKey,RowKey,Name,Producer,AlcoholPercentage,AlcoholPercentage@type,Country,VinbudinUrl,RegisteredBy,RegisteredBy@type,RegisteredAt,RegisteredAt@type`, plus one example row (`beer,<32-hex guid>,Tuborg Lille Jul,Carlsberg,5.6,Double,Danmörk,,<kromby's user ID>,Int32,2026-11-20T00:00:00Z,DateTime`). Also give the matching `BeerSeasonBeers` CSV (`PartitionKey,RowKey` = season ID, beer ID).
   4. **Check before launch.** Open `https://www.hress.org/beer` while logged in.
   5. **Menu entry.** Add the `/beer` menu entry the same way existing menu rows (served by `/api/menus`) were added. This completes BR-01; close kromby/BeerRater#1.

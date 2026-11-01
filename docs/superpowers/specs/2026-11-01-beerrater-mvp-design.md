@@ -75,7 +75,7 @@ BeerRater's endpoints are added to `Hress.Org/api` as a new domain module, **`Ez
 
   | Table | PartitionKey | RowKey | Other properties |
   |---|---|---|---|
-  | `BeerSeasons` | `"season"` | season ID | name (e.g. "Jólabjór 2026"), type (a plain field, unused in the MVP), start date, end date (empty while running) |
+  | `BeerSeasons` | `"season"` | season ID | name (e.g. "Jólabjór 2026"), type ID (an ID in the shared SQL `gen_Type` table, unused in the MVP), start date, end date (empty while running) |
   | `Beers` | `"beer"` | beer ID | name, producer, alcohol %, country, Vínbúðin URL (optional), registered by (user ID), registered at |
   | `BeerSeasonBeers` | season ID | beer ID | (link only) |
   | `BeerRatings` | season ID | `{beerID}_{userID}` | beer ID, user ID, stars (1–5), created, updated |
