@@ -55,3 +55,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Superpowers working files (brainstorm wireframes, task briefs)
+.superpowers/
