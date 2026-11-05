@@ -1,6 +1,6 @@
 # ADR-0006: Images: existing image API, `Beer` container
 
-**Status:** Accepted (2026-11-01)
+**Status:** Accepted (2026-11-01). Amended by [ADR-0010](0010-chat-shared-hress-chat-module.md).
 
 ## Context
 

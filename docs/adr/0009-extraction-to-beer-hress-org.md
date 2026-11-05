@@ -1,6 +1,6 @@
 # ADR-0009: Extraction to beer.hress.org and a shared login service
 
-**Status:** Accepted (2026-11-01)
+**Status:** Accepted (2026-11-01). Amended by [ADR-0010](0010-chat-shared-hress-chat-module.md).
 
 ## Context
 
