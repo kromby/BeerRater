@@ -1,6 +1,6 @@
 # ADR-0003: Backend: `Ez.Hress.BeerRater` module in the Hress.Org API
 
-**Status:** Accepted (2026-11-01)
+**Status:** Accepted (2026-11-01). Amended by [ADR-0010](0010-chat-shared-hress-chat-module.md).
 
 ## Context
 

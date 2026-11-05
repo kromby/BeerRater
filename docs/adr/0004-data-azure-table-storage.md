@@ -1,6 +1,6 @@
 # ADR-0004: Data: Azure Table Storage, five tables, production-only environment
 
-**Status:** Accepted (2026-11-01)
+**Status:** Accepted (2026-11-01). Amended by [ADR-0010](0010-chat-shared-hress-chat-module.md).
 
 ## Context
 
@@ -18,7 +18,7 @@ BeerRater needs storage for seasons, beers, ratings and chat. There is **one** d
 | `Beers` | `"beer"` | beer ID |
 | `BeerSeasonBeers` | season ID | beer ID |
 | `BeerRatings` | season ID | `{beerID}_{userID}` |
-| `BeerChatMessages` | `{seasonID}_{beerID}` | sortable timestamp + unique suffix |
+| ~~`BeerChatMessages`~~ `BeerChatThreads` | season ID | beer ID (messages live in the Hress chat, see ADR-0010) |
 
 ## Consequences
 
